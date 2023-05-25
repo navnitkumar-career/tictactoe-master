@@ -1,5 +1,6 @@
 package ua.toe.tac.tic;
 
+import io.github.pixee.security.BoundedLineReader;
 import ua.toe.tac.tic.enums.Player;
 import ua.toe.tac.tic.enums.Direction;
 import ua.toe.tac.tic.model.Board;
@@ -20,17 +21,17 @@ public class TicTacToe {
     public static Player run() throws IOException {
         BufferedReader reader = new BufferedReader( new InputStreamReader(System.in));
         System.out.println("Please, fill the size of the board. Example: '4x4' ");
-        String[] borderSize = reader.readLine().split("x");
+        String[] borderSize = BoundedLineReader.readLine(reader, 1000000).split("x");
         int height = Integer.valueOf(borderSize[0]);
         int width = Integer.valueOf(borderSize[1]);
         System.out.println("Please, fill the count of the coincidence. Example '3' ");
-        String expectedCoincidenceCount = reader.readLine();
+        String expectedCoincidenceCount = BoundedLineReader.readLine(reader, 1000000);
         TicTacToe game = new TicTacToe( width, height );
         game.setCoincidenceCount( Integer.valueOf( expectedCoincidenceCount ) );
         boolean isPlayerX = true;
         while ( true ) {
             System.out.println("Please, fill the point. Example: '1x0'");
-            String s = reader.readLine();
+            String s = BoundedLineReader.readLine(reader, 1000000);
             String[] ss = s.split( "x" );
             Point point = new Point(Integer.valueOf(ss[0]),Integer.valueOf(ss[1]) );
             if ( game.board.checkTheExitOfTheBorders( point ) ) {
